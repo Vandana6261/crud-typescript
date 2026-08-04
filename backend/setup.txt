@@ -1,0 +1,299 @@
+====================================================
+Node.js + Express + TypeScript Project Setup Guide
+====================================================
+
+
+STEP 1: Create Project Folder
+-----------------------------
+
+mkdir backend
+cd backend
+
+
+STEP 2: Initialize Node Project
+-------------------------------
+
+npm init -y
+
+
+STEP 3: Install Express
+-----------------------
+
+npm install express
+
+
+STEP 4: Install Development Dependencies
+-----------------------------------------
+
+npm install -D typescript tsx nodemon @types/node @types/express
+
+
+Packages:
+
+typescript      -> TypeScript compiler
+tsx             -> Run TypeScript files directly
+nodemon         -> Restart server automatically
+@types/node     -> Node.js TypeScript types
+@types/express  -> Express TypeScript types
+
+
+STEP 5: Create TypeScript Configuration
+---------------------------------------
+
+npx tsc --init
+
+
+Replace tsconfig.json with:
+
+
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "node16",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node16",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+
+
+STEP 6: Create Folder Structure
+--------------------------------
+
+Create src folder:
+
+mkdir src
+
+
+Final structure:
+
+backend
+|
+|-- node_modules
+|
+|-- src
+|   |
+|   |-- app.ts
+|   |
+|   |-- server.ts
+|
+|-- package.json
+|
+|-- package-lock.json
+|
+|-- tsconfig.json
+
+
+STEP 7: Create Express Application
+-----------------------------------
+
+Create file:
+
+src/app.ts
+
+
+Code:
+
+
+import express from "express";
+
+const app = express();
+
+app.use(express.json());
+
+
+app.get("/", (req, res) => {
+    res.json({
+        message: "Server is running"
+    });
+});
+
+
+export default app;
+
+
+
+STEP 8: Create Server File
+--------------------------
+
+Create file:
+
+src/server.ts
+
+
+Code:
+
+
+import app from "./app";
+
+
+const PORT = 3000;
+
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+
+
+STEP 9: Configure package.json Scripts
+---------------------------------------
+
+Add/update scripts:
+
+
+"scripts": {
+    "dev": "nodemon --watch src --exec tsx src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+}
+
+
+Important:
+
+Use:
+
+tsx src/server.ts
+
+
+Do not use:
+
+ts-node src/server.ts
+
+
+because ts-node can have compatibility issues with newer Node versions.
+
+
+
+STEP 10: Start Development Server
+----------------------------------
+
+Run:
+
+npm run dev
+
+
+Expected output:
+
+[nodemon] starting `tsx src/server.ts`
+
+Server running on port 3000
+
+
+
+STEP 11: Test API
+-----------------
+
+Open browser:
+
+http://localhost:3000
+
+
+Expected response:
+
+
+{
+    "message": "Server is running"
+}
+
+
+
+STEP 12: Build Project
+----------------------
+
+Compile TypeScript:
+
+npm run build
+
+
+This creates:
+
+dist/
+ |
+ |-- app.js
+ |
+ |-- server.js
+
+
+
+STEP 13: Run Production Build
+------------------------------
+
+npm start
+
+
+
+====================================================
+Recommended Project Structure For Large Applications
+====================================================
+
+
+src
+|
+|-- server.ts
+|
+|-- app.ts
+|
+|-- config
+|
+|-- routes
+|
+|-- controllers
+|
+|-- services
+|
+|-- models
+|
+|-- middleware
+|
+|-- utils
+|
+|-- types
+
+
+
+====================================================
+Quick Setup Commands
+====================================================
+
+
+mkdir backend
+
+cd backend
+
+npm init -y
+
+npm install express
+
+npm install -D typescript tsx nodemon @types/node @types/express
+
+npx tsc --init
+
+mkdir src
+
+create:
+    src/app.ts
+    src/server.ts
+
+update:
+    package.json
+    tsconfig.json
+
+run:
+
+npm run dev
+
+
+====================================================
+END
+====================================================
