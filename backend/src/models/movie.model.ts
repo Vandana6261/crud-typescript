@@ -32,7 +32,9 @@ const movieSchema = new Schema<IMovie>(
     }
 );
 
-export const Movie = mongoose.model<IMovie>(
+const Movie = mongoose.model<IMovie>(
     "Movie",
     movieSchema
 );
+
+export default Movie;
