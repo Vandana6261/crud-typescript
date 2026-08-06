@@ -10,29 +10,29 @@ export const getMovies = async () => {
 
 
 export const createMovie = async (movieData: CreateMovieDTO) => {
-  console.log("service start")
+
+  if (movieData.rating < 0 || movieData.rating > 10) {
+    throw new Error("Invalid rating");
+  }
+
   const movie = await Movie.create(movieData);
-  console.log("service end")
 
   return movie;
-}
-
-export const updateMovieService = async (id: string, movieData: UpdateMovieDTO) => {
-    console.log("service start")
-    const updatedMovie = await Movie.findByIdAndUpdate(
-        id,
-        { $set: movieData },
-        {
-            new: true,
-            runValidators: true,
-        }
-    );
-    console.log("service end")
-    return updatedMovie;
 };
 
+export const updateMovieService = async (id: string, movieData: UpdateMovieDTO) => {
+  const updatedMovie = await Movie.findByIdAndUpdate(
+    id,
+    { $set: movieData },
+    {
+      returnDocument: 'after',
+      runValidators: true,
+    },
+  );
+  return updatedMovie;
+};
 
 export const deleteMovieService = async (id: string) => {
-    const findAndDeleteMovie = await Movie.findByIdAndDelete(id);
-    return findAndDeleteMovie;
-}
+  const findAndDeleteMovie = await Movie.findByIdAndDelete(id);
+  return findAndDeleteMovie;
+};

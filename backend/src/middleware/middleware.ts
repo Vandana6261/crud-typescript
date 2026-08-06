@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
+import AppError from "../utils/AppError";
 
 const errorMiddleware = (
   error: unknown,
@@ -15,6 +16,13 @@ const errorMiddleware = (
     });
   }
 
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+    });
+  }
+
   if (error instanceof Error) {
     return res.status(500).json({
       success: false,
@@ -27,6 +35,5 @@ const errorMiddleware = (
     message: "Internal Server Error",
   });
 };
-
 
 export default errorMiddleware;

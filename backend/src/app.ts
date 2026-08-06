@@ -8,7 +8,6 @@ const app = express();
 // console.log(process.env.PORT)
 app.use(express.json());
 
-app.use(logger);
 
 app.use((req: Request, res: Response, next) => {
   console.log(req.method, "method", req.path, "path");

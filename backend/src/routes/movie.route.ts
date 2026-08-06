@@ -4,7 +4,6 @@ import asyncHandler from "../middleware/asyncHandler";
 
 const router = Router();
 
-console.log("movie route")
 
 router.get("/movies", asyncHandler(getAllMovies))
 router.post("/movies", asyncHandler(addMovie))
