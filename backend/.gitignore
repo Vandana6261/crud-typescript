@@ -1,2 +1,6 @@
 .env
 node_modules
+all-src-code.txt
+extract_src.js
+.env.test
+dist
