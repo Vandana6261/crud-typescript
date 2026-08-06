@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import userRoute from "./routes/userRoute"
 import { logger } from "./middleware/logger";
 import movieRoute from "./routes/movie.route";
+import jobRoute from "./routes/job.route";
 import errorMiddleware from "./middleware/middleware";
 
 const app = express();
@@ -24,7 +25,8 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/users", userRoute);
 
-app.use("/api", movieRoute);
+app.use("/api/movies", movieRoute);
+app.use("/api/jobs", jobRoute)
 
 app.use(errorMiddleware);
 export default app;

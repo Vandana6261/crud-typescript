@@ -5,11 +5,11 @@ import asyncHandler from "../middleware/asyncHandler";
 const router = Router();
 
 
-router.get("/movies", asyncHandler(getAllMovies))
-router.post("/movies", asyncHandler(addMovie))
-// router.get("/movies/:id")
-router.patch("/movies/:id", asyncHandler(updateMovie))
-router.delete("/movies/:id", asyncHandler(deleteMovie))
+router.get("/", asyncHandler(getAllMovies))
+router.post("/", asyncHandler(addMovie))
+// router.get("/:id")
+router.patch("/:id", asyncHandler(updateMovie))
+router.delete("/:id", asyncHandler(deleteMovie))
 
 
 export default router;
