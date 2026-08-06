@@ -297,3 +297,79 @@ npm run dev
 ====================================================
 END
 ====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "title": "Full Stack Developer",
+
+  "companyName": "CloudEdge Technologies",
+
+  "companyWebsite": "https://www.cloudedgetechnologies.com",
+
+  "contactEmail": "careers@cloudedgetechnologies.com",
+
+  "location": "Pune, India",
+
+  "employmentType": "Full-time",
+
+  "experience": "3-5 yrs",
+
+  "salary": "12-18 LPA",
+
+  "skills": [
+    "React",
+    "Node.js",
+    "TypeScript",
+    "PostgreSQL",
+    "AWS"
+  ],
+
+  "description": "We are hiring a Full Stack Developer to build scalable web applications. The ideal candidate should have experience with frontend development, backend APIs, databases, and cloud deployment."
+}
+
+
+
+
+
+
+
+{
+  "title": "Frontend Developer Intern",
+
+  "companyName": "PixelCraft Labs",
+
+  "companyWebsite": "https://www.pixelcraftlabs.com",
+
+  "contactEmail": "careers@pixelcraftlabs.com",
+
+  "location": "Remote",
+
+  "employmentType": "Internship",
+
+  "experience": "0-1 yrs",
+
+  "salary": "25K per month",
+
+  "skills": [
+    "React",
+    "TypeScript",
+    "Tailwind CSS"
+  ],
+
+  "description": "Looking for a frontend intern who wants to learn and work on real-world projects using modern frontend technologies."
+}
