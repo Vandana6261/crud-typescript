@@ -7,7 +7,11 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.accessToken;
 
     if (!token) {
-        return next(new AppError("Access token missing", 401));
+        return res.status(401).json({
+            success: false,
+            code: "ACCESS_TOKEN_MISSING",
+            message: "Access token missing"
+        })
     }
 
     try {
