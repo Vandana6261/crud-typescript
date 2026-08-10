@@ -17,7 +17,9 @@ type FormData = {
 
 const SignupPage: React.FC<SignupPageProps> = () => {
   // Form States
-  const { setUser } = useAuth();
+  const { setUser, user } = useAuth();
+  const navigate = useNavigate();
+  if(user) navigate("/home")
 
   const [email, setEmail] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
@@ -29,8 +31,6 @@ const SignupPage: React.FC<SignupPageProps> = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
-
-  const navigate = useNavigate();
 
   // 1. Handle Send Verification Code
   const handleSendOtp = async (e: React.FormEvent) => {

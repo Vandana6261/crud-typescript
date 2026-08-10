@@ -13,29 +13,29 @@ export const HomePage: React.FC = () => {
   // Access user from Auth Context
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setLoading(true);
-        const result = await getJobs();
+  const fetchJobs = async () => {
+    try {
+      setLoading(true);
+      const result = await getJobs();
 
-        if (result.success) {
-          setJobs(result.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch jobs", error);
-      } finally {
-        setLoading(false);
+      if (result.success) {
+        setJobs(result.data);
       }
-    };
-
+    } catch (error) {
+      console.error("Failed to fetch jobs", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
     fetchJobs();
   }, []);
 
   const handleCreateJob = async (payload: JobFormData) => {
-    // TODO: Replace this with your actual API call function, e.g., await createJob(payload);
-    console.log(payload, "formData")
-    const result = await createJob(payload)
+    console.log(payload, "formData");
+    const result = await createJob(payload);
+    if(result.success) await fetchJobs();
     console.log("Submitting job payload:", payload);
   };
 
