@@ -1,14 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
+import { logout } from '../services/authService';
 
-interface HeaderProps {
-  onLoginClick?: () => void;
-  onGetStartedClick?: () => void;
-}
 
-export const Header: React.FC<HeaderProps> = ({ onLoginClick, onGetStartedClick }) => {
-  const { user } = useAuth();
+export const Header: React.FC = () => {
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setUser(null);
+    } catch (err) {
+      console.error('Logout failed', err);
+    }
+  };
 
   return (
     <header className="w-full border-b border-cardBorder backdrop-blur-md sticky top-0 z-50 bg-page/80">
@@ -28,21 +35,36 @@ export const Header: React.FC<HeaderProps> = ({ onLoginClick, onGetStartedClick 
         <nav className="hidden md:flex items-center gap-6">
               <Link to="/" className="text-sm font-medium text-title hover:text-primary transition-colors">Landing</Link>
 
-              <Link to="/home" className="text-sm font-medium text-title hover:text-primary transition-colors">Home</Link>
+              {user && <Link to="/home" className="text-sm font-medium text-title hover:text-primary transition-colors">Home</Link>}
 
-              <Link to="/login" className="text-sm font-medium text-title hover:text-primary transition-colors">Login</Link>
-
-              <Link to="/signup" className="text-sm font-medium text-title hover:text-primary transition-colors">Sign Up</Link>
+              { !user && (
+                <>
+                  <Link to="/login" className="text-sm font-medium text-title hover:text-primary transition-colors">Login</Link>
+                  <Link to="/signup" className="text-sm font-medium text-title hover:text-primary transition-colors">Sign Up</Link>
+                </>
+              )}
             </nav>
 
         {/* Action Buttons */}
-          <p>{user?.username || "Guest"}</p>
-          <button 
-            onClick={onGetStartedClick}
-            className="px-4 py-2 text-sm font-medium rounded-lg bg-primary hover:bg-primaryHover text-zinc-950 font-semibold transition-all shadow-lg shadow-primary/25"
-          >
-            Get Started
-          </button>
+        <div className='flex gap-2'>
+           <p className='text-primary'>{user?.username || "Guest"}</p>
+            { user ? (
+              <button 
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-primary hover:bg-primaryHover text-zinc-950 font-semibold transition-all shadow-lg shadow-primary/25"
+              >
+                Logout
+              </button>
+            ) : (
+              <button 
+                onClick={() => navigate("/login")}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-primary hover:bg-primaryHover text-zinc-950 font-semibold transition-all shadow-lg shadow-primary/25"
+              >
+                Get Started
+              </button>
+            ) }
+        </div>
+
 
       </div>
     </header>
