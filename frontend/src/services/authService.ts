@@ -1,5 +1,5 @@
 import api from "../api/axios";
-export type RoleType = 'student' | 'recruiter';
+export type RoleType = 'recruiter' | 'candidate';
 
 
 export interface LoginRequest {

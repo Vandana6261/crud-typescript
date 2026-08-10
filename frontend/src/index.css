@@ -1,1 +1,79 @@
 @import "tailwindcss";
+
+:root {
+  /* Core Structure Variables (Pure Black & Vibrant Emerald Theme) */
+  --color-page: #000000;
+  --color-card: rgba(12, 12, 14, 0.75);
+  --color-cardBorder: rgba(16, 185, 129, 0.15);
+  
+  /* Input & Form Element Fields */
+  --color-inputBg: rgba(8, 8, 10, 0.8);
+  --color-inputBorder: rgba(16, 185, 129, 0.2);
+
+  /* Typography / Text Content */
+  --color-title: #ffffff;
+  --color-body: #a1a1aa;
+  --color-muted: #71717a;
+  --color-placeholder: #52525b;
+
+  /* Brand Identity Accents (Pure Black + Electric Emerald) */
+  --color-primary: #10b981;
+  --color-primaryHover: #059669;
+  --color-secondary: #34d399;
+  --color-secondaryHover: #059669;
+
+  --color-alert: #ef4444;
+}
+
+.light {
+  /* Core Structure Variables (Clean Light Mode Alternative) */
+  --color-page: #ffffff;
+  --color-card: rgba(244, 244, 245, 0.8);
+  --color-cardBorder: rgba(16, 185, 129, 0.2);
+  
+  /* Input & Form Element Fields */
+  --color-inputBg: rgba(250, 250, 250, 0.9);
+  --color-inputBorder: rgba(16, 185, 129, 0.25);
+
+  /* Typography / Text Content */
+  --color-title: #09090b;
+  --color-body: #52525b;
+  --color-muted: #71717a;
+  --color-placeholder: #a1a1aa;
+
+  /* Brand remains consistent */
+  --color-primary: #059669;
+  --color-primaryHover: #047857;
+  --color-secondary: #10b981;
+  --color-secondaryHover: #059669;
+  --color-alert: #dc2626;
+}
+
+@theme {
+  --color-page: var(--color-page);
+  --color-card: var(--color-card);
+  --color-cardBorder: var(--color-cardBorder);
+  
+  --color-inputBg: var(--color-inputBg);
+  --color-inputBorder: var(--color-inputBorder);
+  
+  --color-title: var(--color-title);
+  --color-body: var(--color-body);
+  --color-muted: var(--color-muted);
+  --color-placeholder: var(--color-placeholder);
+  
+  --color-primary: var(--color-primary);
+  --color-primaryHover: var(--color-primaryHover);
+  --color-secondary: var(--color-secondary);
+  --color-secondaryHover: var(--color-secondaryHover);
+
+  --color-alert: var(--color-alert);
+}
+
+/* Glassmorphism Utility Helper */
+.glass-panel {
+  background-color: var(--color-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-cardBorder);
+}

@@ -4,6 +4,7 @@ import { LandingPage } from './components/Landing';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,13 @@ const router = createBrowserRouter([
       { index: true, element: <LandingPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'signup', element: <SignupPage /> },
-      { path: 'home', element: <HomePage /> },
+      // { path: 'home', element: <HomePage /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: 'home', element: <HomePage /> },
+        ],
+      },
     ],
   },
 ]);
