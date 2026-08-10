@@ -44,12 +44,16 @@ api.interceptors.response.use(
 
   async (error: AxiosError) => {
     console.error('❌ API Error:', error.response?.status, error.response?.data);
-    // console.log(error.response?.data);
-    // console.log(error.response?.data?.code);
-    const originalRequest = error.config as InternalAxiosRequestConfig & {_retry?: boolean;};
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean; };
 
-    /** Only handle 401 errors.*/
-    if (error.response?.status !== 401 || !originalRequest) {
+
+    if (
+      error.response?.status !== 401 ||
+      !["ACCESS_TOKEN_MISSING", "ACCESS_TOKEN_EXPIRED"].includes(
+        error.response?.data?.code
+      ) ||
+      !originalRequest
+    ) {
       return Promise.reject(error);
     }
 
