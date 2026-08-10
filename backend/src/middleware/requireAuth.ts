@@ -15,7 +15,7 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
         req.user = {userId: payload.userId, role: payload.role,};
         next();
     } catch (error) {
-        if (error instanceof jwt.TokenExpiredError) {\
+        if (error instanceof jwt.TokenExpiredError) {
             return res.status(401).json({
                     success: false,
                     code: "ACCESS_TOKEN_EXPIRED",
