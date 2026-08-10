@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { register, sendOtp, verifyOtp } from '../services/authService';
 import { useAuth } from '../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 type SignupStep = 'EMAIL_INPUT' | 'OTP_INPUT' | 'DETAILS_INPUT';
 type RoleType = 'recruiter' | 'candidate';
@@ -13,11 +14,8 @@ type FormData = {
   role: RoleType;
 };
 
-interface SignupPageProps {
-  onSignupSuccess?: (userData: { email: string; role: RoleType }) => void;
-}
 
-const SignupPage: React.FC<SignupPageProps> = ({ onSignupSuccess }) => {
+const SignupPage: React.FC<SignupPageProps> = () => {
   // Form States
   const { setUser } = useAuth();
 
@@ -27,19 +25,12 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSignupSuccess }) => {
   const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState<RoleType>('student');
 
-  // const [formData, setFormData] = useState<FormData>({
-  //   email: "",
-  //   otp: "",
-  //   username: "",
-  //   password: "",
-  //   role: ""
-  // })
-
-  // Flow & UI States
   const [step, setStep] = useState<SignupStep>('EMAIL_INPUT');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
+
+  const navigate = useNavigate();
 
   // 1. Handle Send Verification Code
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -53,7 +44,6 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSignupSuccess }) => {
 
     try {
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       const result = await sendOtp({email})
       setSuccessMessage('Verification code sent to your email.');
       setStep('OTP_INPUT');
@@ -76,7 +66,6 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSignupSuccess }) => {
 
     try {
       setLoading(true);
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
       const result = await verifyOtp({otp});
       setSuccessMessage('Email verified successfully! Please complete your profile.');
       setStep('DETAILS_INPUT');
@@ -99,14 +88,10 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSignupSuccess }) => {
 
     try {
       setLoading(true);
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
       const result = await register({username, password, role})
       setUser(result?.data);
-      if (onSignupSuccess) {
-        onSignupSuccess({ email, role });
-      } else {
-        alert(`Signup successful! Redirecting to Home Page as a ${role}...`);
-      }
+      setError('');
+      navigate("/home");
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {

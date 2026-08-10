@@ -1,6 +1,21 @@
 import api from "../api/axios";
 import type { ApiResponse, JobItem } from "../types/job.types";
 
+export interface JobCreatePayload {
+  title: string;
+  companyName: string;
+  companyWebsite: string;
+  contactEmail: string;
+  location: string;
+  employmentType: string;
+  experience: string;
+  salary: string;
+  skills: string[];
+  description: string;
+  applicationStartDate: string;
+  applicationDeadline: string;
+}
+
 export const getJobs = async ():Promise<ApiResponse> => {
     const response = await api.get<ApiResponse>('/jobs');
     console.log(response.data);
@@ -13,11 +28,11 @@ export const getJobById = async (id: string): Promise<JobItem> => {
   return response.data;
 };
 
-// export const createJob = async (jobData: ...) => {
-//   const response = await api.post('/jobs', jobData);
-
-//   return response.data;
-// };
+export const createJob = async (jobData: JobCreatePayload):Promise<ApiResponse> => {
+  const response = await api.post('/jobs', jobData);
+  console.log(response, "create job response");
+  return response.data;
+};
 
 // export const updateJob = async (id: string, jobData: ...) => {
 //   const response = await api.put(`/jobs/${id}`, jobData);

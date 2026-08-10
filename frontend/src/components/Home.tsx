@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import type { JobItem } from '../types/job.types';
-import { getJobs } from '../services/jobsApi';
+import { createJob, getJobs } from '../services/jobsApi';
+import JobApplicationModal, { type JobFormData } from '../components/JobApplicationModal';
+import { useAuth } from '../context/authContext';
 
 export const HomePage: React.FC = () => {
   const [jobs, setJobs] = useState<JobItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  
+  // Access user from Auth Context
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -26,6 +32,13 @@ export const HomePage: React.FC = () => {
     fetchJobs();
   }, []);
 
+  const handleCreateJob = async (payload: JobFormData) => {
+    // TODO: Replace this with your actual API call function, e.g., await createJob(payload);
+    console.log(payload, "formData")
+    const result = await createJob(payload)
+    console.log("Submitting job payload:", payload);
+  };
+
   const filteredJobs = jobs.filter(job => 
     job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -44,6 +57,18 @@ export const HomePage: React.FC = () => {
             Discover top opportunities from innovative companies.
           </p>
           
+          {/* Action Buttons & Search Bar Area - Only visible if user role is 'recruiter' */}
+          {user?.role === 'recruiter' && (
+            <div className="mb-6">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-primary hover:bg-primaryHover text-black font-semibold text-sm px-6 py-2.5 rounded-xl transition-colors shadow-lg shadow-primary/20"
+              >
+                + Post New Job
+              </button>
+            </div>
+          )}
+
           {/* Search Bar */}
           <div className="flex items-center bg-inputBg border border-inputBorder rounded-xl p-2 shadow-2xl max-w-xl mx-auto backdrop-blur-xl">
             <svg className="w-5 h-5 text-placeholder ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,9 +162,18 @@ export const HomePage: React.FC = () => {
 
                 {/* Footer Action */}
                 <div className="pt-4 border-t border-cardBorder flex items-center justify-between">
-                  <span className="text-xs text-muted">
-                    Posted: {new Date(job?.createdAt).toLocaleDateString()}
-                  </span>
+                  <div className='flex flex-col'>
+                    {job?.createdAt && <span className="text-xs text-muted">
+                      Posted: {new Date(job?.createdAt).toLocaleDateString()}
+                    </span>}
+                    {job?.applicationStartDate && <span className="text-xs text-muted">
+                      Start Date: {new Date(job?.applicationStartDate).toLocaleDateString()}
+                    </span>}
+                    {job?.applicationDeadline && <span className="text-xs text-muted">
+                      End Date: {new Date(job?.applicationDeadline).toLocaleDateString()}
+                    </span>}
+                    
+                  </div>
                   <a 
                     href={`mailto:${job.contactEmail}?subject=Application for ${job.title}`}
                     className="bg-primary hover:bg-primaryHover text-black font-semibold text-sm px-4 py-2 rounded-xl transition-colors shadow-lg shadow-primary/20"
@@ -152,6 +186,13 @@ export const HomePage: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Job Application Modal Component */}
+      <JobApplicationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmitApi={handleCreateJob}
+      />
     </div>
   );
 };
