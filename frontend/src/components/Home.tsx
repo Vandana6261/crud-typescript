@@ -2,42 +2,6 @@ import React, { useState, useEffect } from 'react';
 import type { JobItem, ApiResponse } from '../types/job.types';
 import { getJobs } from '../services/jobsApi';
 
-// Mock data based on your exact API response
-const mockApiResponse: ApiResponse = {
-  success: true,
-  data: [
-    {
-      _id: "6a7459eeb5b70b9acfbe65ba",
-      title: "Backend Developer",
-      companyName: "Bidyut",
-      companyWebsite: "https://www.technovasolutions.com",
-      contactEmail: "jobs@technovasolutions.com",
-      location: "Bangalore, India",
-      employmentType: "Full-time",
-      experience: "2-4 yrs",
-      salary: "8-12 LPA",
-      skills: ["Node.js", "TypeScript", "MongoDB", "Express.js"],
-      description: "We are looking for a backend developer who has experience building REST APIs using Node.js and TypeScript. The candidate should understand databases, API design, and server-side development.",
-      createdAt: "2026-08-06T09:54:54.844Z",
-      updatedAt: "2026-08-06T09:59:25.890Z",
-    },
-    {
-      _id: "6a74621bc43cac101b469c31",
-      title: "Full Stack Developer",
-      companyName: "CloudEdge Technologies",
-      companyWebsite: "https://www.cloudedgetechnologies.com",
-      contactEmail: "careers@cloudedgetechnologies.com",
-      location: "Pune, India",
-      employmentType: "Full-time",
-      experience: "3+ yrs",
-      salary: "12+ LPA",
-      skills: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"],
-      description: "We are hiring a Full Stack Developer to build scalable web applications. The ideal candidate should have experience with frontend development, backend APIs, databases, and cloud deployment.",
-      createdAt: "2026-08-06T10:29:47.084Z",
-      updatedAt: "2026-08-06T10:29:47.084Z",
-    }
-  ]
-};
 
 
 export const HomePage: React.FC = () => {
@@ -46,7 +10,6 @@ export const HomePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    // Simulating API fetch. Replace this block with your actual `fetch()` call.
     const fetchJobs = async () => {
       try {
         setLoading(true);
@@ -55,9 +18,6 @@ export const HomePage: React.FC = () => {
         if (result.success) {
           setJobs(result.data);
         }
-        // const response = await fetch('YOUR_API_ENDPOINT');
-        // const result: ApiResponse = await response.json();
-        
       } catch (error) {
         console.error("Failed to fetch jobs", error);
         setLoading(false);
