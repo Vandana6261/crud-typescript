@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+const helmet = require('helmet');
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoute";
 import authRoute from "./routes/auth.route";
@@ -14,6 +15,7 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
 }));
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
