@@ -97,7 +97,7 @@ export const loginService = async (loginData: LoginDTO) => {
     });
 
     if(!user){
-        throw new AppError("Invalid credentials", 401);
+        throw new AppError("User is not registered with this mail", 401);
     }
 
     const isPasswordValid = await comparePassword(
@@ -106,7 +106,7 @@ export const loginService = async (loginData: LoginDTO) => {
     );
 
     if(!isPasswordValid){
-        throw new AppError("Invalid credentials", 401);
+        throw new AppError("Invalid password", 401);
     }
 
     const accessToken = generateAccessToken({

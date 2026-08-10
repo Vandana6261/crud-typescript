@@ -30,6 +30,7 @@ export async function sendOtpEmail(email: string, otp: string) {
     console.log(`OTP email sent to ${email}`);
   } catch (error) {
     console.warn("OTP email  could not be delivered, logging code instead:", otp);
+    console.log(error, "mail error");
     throw new AppError("Failed to send OTP ", 500);
   }
 }
