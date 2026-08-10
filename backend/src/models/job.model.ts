@@ -63,6 +63,15 @@ const jobSchema = new Schema<IJob>(
       required: true,
       trim: true,
     },
+    applicationStartDate: {
+      type: Date,
+      required: true,
+    },
+
+    applicationDeadline: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

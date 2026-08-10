@@ -14,10 +14,9 @@ export interface IJob extends Document {
     | "Contract";
 
   experience: string;
-
   salary?: string;
-
   skills: string[];
-
   description: string;
+  applicationStartDate: Date;
+  applicationDeadline: Date;
 }
