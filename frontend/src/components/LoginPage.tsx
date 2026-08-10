@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '.././context/authContext';
 import { login } from '../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginPage: React.FC = () => {
   const { setUser } = useAuth();
@@ -9,6 +10,7 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ export const LoginPage: React.FC = () => {
       setUser(result?.data);
       setEmail("");
       setPassword("");
+      navigate("/home")
     } catch (err) {
       console.log(err?.response?.data?.message)
       setError(err?.response?.data?.message);
