@@ -71,7 +71,6 @@ const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ isOpen, onClo
     for (const field of requiredFields) {
       if (!formData[field] || formData[field].toString().trim() === '') {
         setFormError(`Please fill out all required fields. Missing: ${field}`);
-        console.log(formError)
         return;
       }
     }

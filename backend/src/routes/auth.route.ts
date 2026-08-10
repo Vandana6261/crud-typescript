@@ -6,7 +6,6 @@ import validateRefreshToken from "../middleware/validateRefreshToken";
 import { registerUser, signupInit, verifyOtp, login, logout, me, refresh } from "../controllers/auth.controller";
 
 const router = Router();
-console.log("auth route")
 
 router.post("/signup", asyncHandler(signupInit));
 router.post("/verify-otp",validateSignupToken, asyncHandler(verifyOtp));

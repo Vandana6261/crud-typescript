@@ -33,10 +33,8 @@ export const HomePage: React.FC = () => {
   }, []);
 
   const handleCreateJob = async (payload: JobFormData) => {
-    console.log(payload, "formData");
     const result = await createJob(payload);
     if(result.success) await fetchJobs();
-    console.log("Submitting job payload:", payload);
   };
 
   const filteredJobs = jobs.filter(job => 

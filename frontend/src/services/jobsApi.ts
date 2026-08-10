@@ -18,7 +18,6 @@ export interface JobCreatePayload {
 
 export const getJobs = async ():Promise<ApiResponse> => {
     const response = await api.get<ApiResponse>('/jobs');
-    console.log(response.data);
     return response.data
 }
 
@@ -30,7 +29,6 @@ export const getJobById = async (id: string): Promise<JobItem> => {
 
 export const createJob = async (jobData: JobCreatePayload):Promise<ApiResponse> => {
   const response = await api.post('/jobs', jobData);
-  console.log(response, "create job response");
   return response.data;
 };
 

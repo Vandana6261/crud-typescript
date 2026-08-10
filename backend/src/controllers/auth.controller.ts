@@ -39,7 +39,6 @@ export const registerUser = async (req: Request, res: Response) => {
 
 
 export const login = async (req: Request, res: Response) => {
-    console.log(req.body)
     const loginData = loginSchema.parse(req.body);
 
     const result = await loginService(loginData);

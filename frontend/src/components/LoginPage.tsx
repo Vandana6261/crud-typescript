@@ -31,7 +31,6 @@ export const LoginPage: React.FC = () => {
       setPassword("");
       navigate("/home")
     } catch (err) {
-      console.log(err?.response?.data?.message)
       setError(err?.response?.data?.message);
     } finally {
       setLoading(false);
