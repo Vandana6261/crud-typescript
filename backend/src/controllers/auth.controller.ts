@@ -34,7 +34,7 @@ export const registerUser = async (req: Request, res: Response) => {
     setRefreshTokenCookie(res, result.refreshToken);
 
     res.clearCookie("signupSession");
-    return res.status(201).json({success: true, data: {username: result.user.username, role: result.user.role}});
+    return res.status(201).json({success: true, data: {username: result.user.username, role: result.user.role, userId: result.user._id}});
 };
 
 
@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
     setAccessTokenCookie(res, result.accessToken);
     setRefreshTokenCookie(res, result.refreshToken);
 
-    return res.status(200).json({success: true, data: {username: result.user.username, role: result.user.role}});
+    return res.status(200).json({success: true, data: {username: result.user.username, role: result.user.role, userId: result.user._id}});
 };
 
 
@@ -59,7 +59,7 @@ export const logout = async (req: Request, res: Response) => {
     return res.status(200).json({success: true, message: "Logged out successfully"});
 };
 
-
+``
 export const me = async (req: Request, res: Response) => {
     const user = await meService(req.user!.userId);
 

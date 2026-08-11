@@ -6,8 +6,8 @@ export const getJobs = async () => {
   return jobs;
 };
 
-export const createJob = async (jobData: CreateJobDTO) => {
-  const job = await Job.create(jobData);
+export const createJob = async (jobData: CreateJobDTO, recruiterId: string) => {
+  const job = await Job.create({ ...jobData, recruiter: recruiterId });
   return job;
 };
 

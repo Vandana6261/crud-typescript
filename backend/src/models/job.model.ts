@@ -72,6 +72,11 @@ const jobSchema = new Schema<IJob>(
       type: Date,
       required: true,
     },
+    recruiter: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

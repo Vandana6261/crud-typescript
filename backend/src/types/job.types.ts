@@ -19,4 +19,6 @@ export interface IJob extends Document {
   description: string;
   applicationStartDate: Date;
   applicationDeadline: Date;
+  // RECRUITER who posted the job
+  recruiter: string;
 }

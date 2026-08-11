@@ -147,10 +147,14 @@ export const logoutService = async (userId: string) => {
 
 
 export const meService = async (userId: string) => {
-    const user = await User.findById(userId).select("username role -_id");
+    const user = await User.findById(userId).select("username role _id");
     if(!user){
         throw new AppError("User not found", 404);
     }
 
-    return user;
+    return {
+        userId: user._id,
+        username: user.username,
+        role: user.role,
+    }
 };
