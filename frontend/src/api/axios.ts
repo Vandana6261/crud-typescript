@@ -27,7 +27,7 @@ const notifyRefreshSubscribers = () => {
 
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    console.log(`➡️ ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+    // console.log(`➡️ ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => {
@@ -38,7 +38,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    console.log(`✅ ${response.status} ${response.config.url}`);
+    // console.log(`✅ ${response.status} ${response.config.url}`);
     return response;
   },
 

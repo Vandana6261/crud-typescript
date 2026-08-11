@@ -14,6 +14,8 @@ export interface JobItem {
   updatedAt: String;
   applicationStartDate?: Date;
   applicationDeadline?: Date;
+  // recruiter id (ObjectId)
+  recruiter?: string;
 }
 
 export interface ApiResponse {

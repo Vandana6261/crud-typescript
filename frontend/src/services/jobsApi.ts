@@ -32,36 +32,13 @@ export const createJob = async (jobData: JobCreatePayload):Promise<ApiResponse> 
   return response.data;
 };
 
-// export const updateJob = async (id: string, jobData: ...) => {
-//   const response = await api.put(`/jobs/${id}`, jobData);
+export const updateJob = async (id: string, jobData: JobCreatePayload) => {
+  const response = await api.patch(`/jobs/${id}`, jobData);
+  return response.data;
+};
 
-//   return response.data;
-// };
+export const deleteJob = async (id: string) => {
+  const response = await api.delete(`/jobs/${id}`);
 
-// export const deleteJob = async (id: string) => {
-//   const response = await api.delete(`/jobs/${id}`);
-
-//   return response.data;
-// };
-
-
-// export const getJobs2 = async (): Promise<ApiResponse> => {
-//     const response = await fetch("http://localhost:5000/api/jobs", {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     });
-
-//     if (!response.ok) {
-//         console.log(response, "response");
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-//     // console.log(response, "response");
-    
-//     const data: ApiResponse = await response.json();
-
-//     console.log("Backend data:", data);
-
-//     return data;
-// };
+  return response.data;
+};

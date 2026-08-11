@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import type { JobItem } from '../types/job.types';
-import { createJob, getJobs } from '../services/jobsApi';
-import JobApplicationModal, { type JobFormData } from '../components/JobApplicationModal';
 import { useAuth } from '../context/authContext';
+import { createJob, getJobs, deleteJob } from '../services/jobsApi';
+import JobApplicationModal, { type JobFormData } from '../components/JobApplicationModal';
+import DeleteConfirmation from './DeleteConfirmation';
+import UpdateJobModal from './UpdateJobModal';
 
 export const HomePage: React.FC = () => {
   const [jobs, setJobs] = useState<JobItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<JobItem | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedUpdateJob, setSelectedUpdateJob] = useState<JobItem | null>(null);
+
+
   
   // Access user from Auth Context
   const { user } = useAuth();
@@ -42,6 +53,43 @@ export const HomePage: React.FC = () => {
     job.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const handleDeleteClick = (job: JobItem) => {
+    setSelectedJob(job); setIsDeleteModalOpen(true); 
+  }; 
+  const handleCloseDeleteModal = () => { 
+    if (isDeleting) return; 
+    setIsDeleteModalOpen(false); 
+    setSelectedJob(null); 
+  }; 
+  const handleConfirmDelete = async () => { 
+    if (!selectedJob) return; 
+    try { 
+      setIsDeleting(true); 
+      const result = await deleteJob(selectedJob._id); 
+      if (result.success) { 
+        await fetchJobs(); 
+        setIsDeleteModalOpen(false); 
+        setSelectedJob(null); 
+      } 
+    } 
+    catch (error) { 
+      console.error("Failed to delete job:", error); 
+    } finally { 
+      setIsDeleting(false); 
+    } 
+  };
+
+  const handleUpdateClick = (job: JobItem) => {
+    setSelectedUpdateJob(job);
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setIsUpdateModalOpen(false);
+    setSelectedUpdateJob(null);
+  };
+
 
   return (
     <div className="min-h-screen bg-page text-body transition-colors duration-300">
@@ -158,27 +206,76 @@ export const HomePage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Footer Action */}
-                <div className="pt-4 border-t border-cardBorder flex items-center justify-between">
-                  <div className='flex flex-col'>
-                    {job?.createdAt && <span className="text-xs text-muted">
-                      Posted: {new Date(job?.createdAt).toLocaleDateString()}
-                    </span>}
-                    {job?.applicationStartDate && <span className="text-xs text-muted">
-                      Start Date: {new Date(job?.applicationStartDate).toLocaleDateString()}
-                    </span>}
-                    {job?.applicationDeadline && <span className="text-xs text-muted">
-                      End Date: {new Date(job?.applicationDeadline).toLocaleDateString()}
-                    </span>}
-                    
+                <div className="pt-4 border-t border-cardBorder flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                  {/* Job Dates */}
+                  <div className="flex flex-col gap-1">
+                    {job?.createdAt && (
+                      <span className="text-xs text-muted">
+                        Posted: {new Date(job.createdAt).toLocaleDateString()}
+                      </span>
+                    )}
+
+                    {job?.applicationStartDate && (
+                      <span className="text-xs text-muted">
+                        Start Date:{" "}
+                        {new Date(job.applicationStartDate).toLocaleDateString()}
+                      </span>
+                    )}
+
+                    {job?.applicationDeadline && (
+                      <span className="text-xs text-muted">
+                        End Date:{" "}
+                        {new Date(job.applicationDeadline).toLocaleDateString()}
+                      </span>
+                    )}
                   </div>
-                  <a 
-                    href={`mailto:${job.contactEmail}?subject=Application for ${job.title}`}
-                    className="bg-primary hover:bg-primaryHover text-black font-semibold text-sm px-4 py-2 rounded-xl transition-colors shadow-lg shadow-primary/20"
-                  >
-                    Apply Now
-                  </a>
+
+                  {/* Actions */}
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    {/* Apply Button */}
+                    <a
+                      href={`mailto:${job.contactEmail}?subject=Application for ${encodeURIComponent(
+                        job.title
+                      )}`}
+                      className=" inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary hover:bg-primaryHover text-zinc-950 text-sm font-semibold transition-all shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30"
+                    >
+                      Apply Now
+                    </a>
+
+                    {/* Recruiter Actions */}
+                    {user?.userId === job.recruiter && (
+                      <div className="flex items-center gap-2">
+                        {/* Actions */}
+                        <div className="flex flex-wrap items-center justify-end gap-2">
+                          {/* Recruiter Actions */}
+                          {user?.userId === job.recruiter && (
+                            <div className="flex items-center gap-2">
+                              {/* Update */}
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateClick(job)}
+                                className=" inline-flex items-center justify-center px-3.5 py-2 rounded-lg border border-primary/30 bg-primary/5 text-primary text-sm font-medium hover:bg-primary/10 hover:border-primary/50 transition-all"
+                              >
+                                Update
+                              </button>
+
+                              {/* Delete */}
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteClick(job)}
+                                className=" inline-flex items-center justify-center px-3.5 py-2 rounded-lg border border-red-500/30 bg-red-500/5 text-red-400 text-sm font-medium hover:bg-red-500/10 hover:border-red-500/50 transition-all"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
+
+                      </div>
+                    )}
+                  </div>
                 </div>
+
               </div>
             ))}
           </div>
@@ -191,6 +288,22 @@ export const HomePage: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         onSubmitApi={handleCreateJob}
       />
+
+      <DeleteConfirmation
+        isOpen={isDeleteModalOpen}
+        jobTitle={selectedJob?.title ?? ""}
+        isDeleting={isDeleting}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+      />
+
+      <UpdateJobModal
+        isOpen={isUpdateModalOpen}
+        job={selectedUpdateJob}
+        onClose={handleCloseUpdateModal}
+        onSuccess={fetchJobs}
+      />
+
     </div>
   );
 };

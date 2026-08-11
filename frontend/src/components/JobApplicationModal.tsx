@@ -89,7 +89,7 @@ const JobApplicationModal: React.FC<JobApplicationModalProps> = ({ isOpen, onClo
       }
       onClose();
     } catch (err: any) {
-      setApiError(err.message || 'Failed to submit data to the server. Please try again.');
+      setApiError(err.response?.data?.errors[0]?.message)
     } finally {
       setIsSubmitting(false);
     }

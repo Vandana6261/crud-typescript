@@ -62,6 +62,7 @@ export interface User {
   data: {
     username: string;
     role: RoleType;
+    userId: string;
   }
 }
 
